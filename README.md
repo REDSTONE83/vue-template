@@ -32,6 +32,16 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 0. Installation
 1. Folders & Files
+
+- src/system : application global utils, components, styles, router, vuex & webpack entry management
+- src/\*\* : each module has own api, router, store, components, views
+- \*\*/api : create axios instance and provide http services
+- \*\*/components : component files
+- \*\*/store : create vuex store object (state, mutations, getters, actions)
+- \*\*/styles : style files
+- \*\*/utils : reusable function, const
+- \*\*/views : module page files (router path components)
+
 1. HTTP Communication & Interceptor (axios)
 1. Model & Instance (/w vuex)
 1. International (vue-i18n)
