@@ -17,6 +17,7 @@ export function createHttpInstanceWithAuth(url) {
 }
 
 export const http = createHttpInstance();
+export const authHttp = createHttpInstanceWithAuth();
 // export const posts = createInstanceWithAuth('posts');
 
 // CREATE - posts

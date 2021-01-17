@@ -4,16 +4,16 @@
     <div class="condition">
       <div class="item">
         <label for="name">NAME</label>
-        <text-field model="about/condition" field="name" />
+        <text-field model="condition" field="name" />
       </div>
       <div class="item">
         <label for="name">AGE</label>
-        <text-field model="about/condition" field="age" />
+        <text-field model="condition" field="age" />
       </div>
       <div class="item">
         <label for="gender">GENDER</label>
         <dropdown
-          model="about/condition"
+          model="condition"
           field="gender"
           :items="[
             { value: '', text: 'All' },
@@ -22,10 +22,10 @@
           ]"
         />
       </div>
-      <button>Search</button>
+      <button @click="fetchData">Search</button>
     </div>
     <data-table
-      model="about/users"
+      model="users"
       :columns="[
         {
           text: 'NAME',
@@ -52,36 +52,39 @@ import TextField from '@/system/components/TextField.vue';
 import Dropdown from '@/system/components/Dropdown.vue';
 import DataTable from '@/system/components/DataTable.vue';
 
+import { userModel, userSearchConditionModel } from '../model';
+import {
+  createModelInstance,
+  createSingleModelInstance,
+  deleteModelInstance,
+} from '@/system/store/module';
+
+import { fetchUsers } from '../api';
+
 export default {
   components: { TextField, Dropdown, DataTable },
-  created() {
-    const range = (start, stop, step) =>
-      Array.from(
-        { length: (stop - start) / step + 1 },
-        (_, i) => start + i * step,
-      );
-
-    const NAMES = ['Kim', 'Lee', 'Park', 'Kang', 'Seo'];
-    const GENDER = ['M', 'F'];
-
-    this.$store.commit(
-      'about/users/set_list',
-      range(1, 1000000, 1).map(value => {
-        return {
-          firstname: NAMES[Math.floor(Math.random() * 3)],
-          lastname: NAMES[Math.floor(Math.random() * 3)],
-          age: String(Math.floor(Math.random() * 50)),
-          gender: GENDER[Math.floor(Math.random() * 2)],
-          email: '',
-          address: '',
-          nation: '',
-          phone: '',
-          salary: '',
-          department: '',
-          nickname: '',
-        };
-      }),
-    );
+  beforeCreate() {
+    createSingleModelInstance('condition', userSearchConditionModel);
+    createModelInstance('users', userModel);
+  },
+  destroyed() {
+    deleteModelInstance('condition');
+    deleteModelInstance('users');
+  },
+  computed: {
+    selectedUser() {
+      return this.$store.getters['model/users/get_data'];
+    },
+    condition() {
+      return this.$store.getters['model/condition/get_data'];
+    },
+  },
+  methods: {
+    async fetchData() {
+      const condition = this.$store.getters['model/condition/get_data'];
+      const { data } = await fetchUsers({ params: condition });
+      this.$store.commit('model/users/set_list', data.users);
+    },
   },
 };
 </script>

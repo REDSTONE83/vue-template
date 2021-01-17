@@ -6,7 +6,7 @@
       <input
         type="number"
         v-model="page"
-        :min="1"
+        min="1"
         :max="Math.ceil(items.length / sizePerPage)"
       />
     </div>
@@ -22,9 +22,10 @@
           v-for="item in pageItems"
           :key="item.index"
           :class="{
-            focused: $store.getters[`${model}/get_focus_index`] == item.index,
+            focused:
+              $store.getters[`model/${model}/get_focus_index`] == item.index,
           }"
-          @click="$store.commit(`${model}/set_focus`, item.index)"
+          @click="$store.commit(`model/${model}/set_focus`, item.index)"
         >
           <td>{{ (item.index + 1) | number('0,0') }}</td>
           <td
@@ -32,7 +33,9 @@
             :key="`${item.index}_${index}`"
           >
             <template
-              v-if="$store.getters[`${model}/get_focus_index`] == item.index"
+              v-if="
+                $store.getters[`model/${model}/get_focus_index`] == item.index
+              "
             >
               <text-field
                 v-if="column.edit === 'text'"
@@ -89,7 +92,7 @@ export default {
   },
   computed: {
     items() {
-      return this.$store.getters[`${this.model}/get_list`];
+      return this.$store.getters[`model/${this.model}/get_list`];
     },
     pageItems() {
       let startIndex = (this.page - 1) * this.sizePerPage;

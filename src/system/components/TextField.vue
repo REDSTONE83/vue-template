@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     modelValue() {
-      return this.$store.getters[`${this.model}/get_data`][this.field];
+      return this.$store.getters[`model/${this.model}/get_data`][this.field];
     },
   },
   created() {
@@ -38,7 +38,7 @@ export default {
     updateValue(newValue) {
       if (this.value != undefined) this.$emit('input', newValue);
       else
-        this.$store.commit(`${this.model}/set_data`, {
+        this.$store.commit(`model/${this.model}/set_data`, {
           [this.field]: newValue,
         });
     },
