@@ -59,3 +59,16 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 1. Styling & SCSS Bolier-Plate (https://sass-guidelin.es/#the-7-1-pattern)
 1. Bundling & Deploy (webpack, chunk-split, Webserver Setting)
 1. Unit Test (/w jest)
+
+flowchart TB
+start
+-> Set marketing goals
+-> Define target audience
+-> Research competition
+-> Develop marketing strategy
+-> Create marketing content
+-> Distribute marketing content
+-> Measure results
+-> Iterate and improve
+end
+
